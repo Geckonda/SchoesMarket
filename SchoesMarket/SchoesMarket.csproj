@@ -36,4 +36,9 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.10" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SchoesMarket.DAL\SchoesMarket.DAL.csproj" />
+    <ProjectReference Include="..\ShoesMarket.Domain\ShoesMarket.Domain.csproj" />
+  </ItemGroup>
 </Project>
