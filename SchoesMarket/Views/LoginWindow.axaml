@@ -1,0 +1,20 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="using:SchoesMarket.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:DataType="viewmodels:LoginViewModel"
+        x:Class="SchoesMarket.LoginWindow"
+        Title="LoginWindow">
+  <StackPanel Margin="20" Spacing="10">
+        <TextBlock Text="Вход в систему" FontSize="16" FontWeight="Bold"/>
+        
+        <TextBox Watermark="Логин" Text="{Binding Username}"/>
+        <TextBox Watermark="Пароль" PasswordChar="*" Text="{Binding Password}"/>
+        
+        <Button Content="Войти" Command="{Binding ExecuteLoginCommand}"/>
+        
+        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" TextWrapping="Wrap"/>
+    </StackPanel>
+</Window>

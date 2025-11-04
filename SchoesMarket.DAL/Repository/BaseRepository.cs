@@ -10,8 +10,8 @@ namespace SchoesMarket.DAL.Repository
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        private readonly AppDbContext _db;
-        private readonly DbSet<T> _dbset;
+        protected readonly AppDbContext _db;
+        protected readonly DbSet<T> _dbset;
 
         public BaseRepository(AppDbContext db)
         {

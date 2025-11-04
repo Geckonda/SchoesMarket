@@ -1,4 +1,4 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
@@ -30,26 +30,50 @@ namespace SchoesMarket
                 options.UseNpgsql("User ID = postgres; database = SchoesMarket; HOST = localhost; Port = 5432; Password = 2245;"));
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped<IUserRepository, UserRepository>();
 
 
             services.AddTransient<MainWindowViewModel>();
+            services.AddTransient<LoginViewModel>();
+            services.AddTransient<ProductCardViewModel>();
+
+
+            services.AddTransient<LoginWindow>();
 
             return services;
         }
 
         public override void OnFrameworkInitializationCompleted()
         {
-            // �������� -> ������ � �������������� ���� ������� � ���������� ���������� 
+            // Получаем -> билдим и присваиваемаем наши сервисы в глобальную переменную 
             Services = ConfigureServices().BuildServiceProvider();
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
 
                 DisableAvaloniaDataAnnotationValidation();
-                desktop.MainWindow = new MainWindow
+
+                // Создаем окно авторизации
+                var loginWindow = new LoginWindow();
+                var loginViewModel = Services.GetRequiredService<LoginViewModel>();
+                loginWindow.DataContext = loginViewModel;
+
+                // Подписываемся на событие успешной авторизации
+                loginViewModel.LoginSuccessful += () =>
                 {
-                    DataContext = Services.GetRequiredService<MainWindowViewModel>(),
+                    // Создаем главное окно и передаем пользователя
+                    var mainWindow = new MainWindow
+                    {
+                        DataContext = Services.GetRequiredService<MainWindowViewModel>(),
+                    };
+
+                    desktop.MainWindow = mainWindow;
+                    mainWindow.Show();
+                    loginWindow.Close();
                 };
+
+                loginWindow.Show();
+                desktop.MainWindow = loginWindow;
             }
 
             base.OnFrameworkInitializationCompleted();
