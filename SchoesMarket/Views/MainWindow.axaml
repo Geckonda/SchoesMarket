@@ -31,6 +31,9 @@
         <Border Padding="10">
             <StackPanel Spacing="10">
 		        <TextBlock Text="Товары" />
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Авторизация" Command="{Binding OpenAuthCommand}"/>
+                </StackPanel>
                     <ItemsControl ItemsSource="{Binding Products}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>

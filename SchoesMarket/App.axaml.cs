@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SchoesMarket.DAL;
 using SchoesMarket.DAL.Repository;
+using SchoesMarket.Navigation;
 using SchoesMarket.ViewModels;
 using SchoesMarket.Views;
 using ShoesMarket.Domain.Abstractions;
@@ -32,6 +33,11 @@ namespace SchoesMarket
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IUserRepository, UserRepository>();
 
+            services.AddSingleton<INavigationService>(provider =>
+            {
+                var desktop = Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+                return new NavigationService(desktop, provider);
+            });
 
             services.AddTransient<MainWindowViewModel>();
             services.AddTransient<LoginViewModel>();
@@ -39,6 +45,7 @@ namespace SchoesMarket
 
 
             services.AddTransient<LoginWindow>();
+            services.AddTransient<MainWindow>();
 
             return services;
         }
@@ -53,27 +60,8 @@ namespace SchoesMarket
 
                 DisableAvaloniaDataAnnotationValidation();
 
-                // Создаем окно авторизации
-                var loginWindow = new LoginWindow();
-                var loginViewModel = Services.GetRequiredService<LoginViewModel>();
-                loginWindow.DataContext = loginViewModel;
-
-                // Подписываемся на событие успешной авторизации
-                loginViewModel.LoginSuccessful += () =>
-                {
-                    // Создаем главное окно и передаем пользователя
-                    var mainWindow = new MainWindow
-                    {
-                        DataContext = Services.GetRequiredService<MainWindowViewModel>(),
-                    };
-
-                    desktop.MainWindow = mainWindow;
-                    mainWindow.Show();
-                    loginWindow.Close();
-                };
-
-                loginWindow.Show();
-                desktop.MainWindow = loginWindow;
+                var navigation = Services.GetRequiredService<INavigationService>();
+                navigation.NavigateToLogin();
             }
 
             base.OnFrameworkInitializationCompleted();

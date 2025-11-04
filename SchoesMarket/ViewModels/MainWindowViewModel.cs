@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SchoesMarket.Converters;
+using SchoesMarket.Navigation;
 using ShoesMarket.Domain.Abstractions;
 using ShoesMarket.Domain.Entities;
 using System;
@@ -13,13 +14,15 @@ namespace SchoesMarket.ViewModels
     {
 
         private readonly IBaseRepository<ProductEntity> _productRepository;
+        private readonly INavigationService _navigationService;
 
         [ObservableProperty]
         private ObservableCollection<ProductCardViewModel> _products = new();
-        public MainWindowViewModel(IBaseRepository<ProductEntity> productRepository)
+        public MainWindowViewModel(IBaseRepository<ProductEntity> productRepository,
+            INavigationService navigationService)
         {
             _productRepository = productRepository;
-
+            _navigationService = navigationService;
             Refresh();
         }
 
@@ -46,7 +49,11 @@ namespace SchoesMarket.ViewModels
             }
         }
 
-
+        [RelayCommand]
+        private void OpenAuth()
+        {
+            _navigationService.NavigateToLogin();
+        }
 
         [RelayCommand]
         private void OpenAddProductWindow()

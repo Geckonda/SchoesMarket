@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SchoesMarket.Navigation;
 using ShoesMarket.Domain.Abstractions;
 using ShoesMarket.Domain.Entities;
 using System;
@@ -11,11 +12,12 @@ using System.Windows.Input;
 
 namespace SchoesMarket.ViewModels
 {
-    public partial class LoginViewModel : ObservableObject
+    public partial class LoginViewModel : ObservableObject, IWindowViewModel
     {
         private readonly IUserRepository _userRepository;
 
-        public event Action? LoginSuccessful;
+        public event Action RequestClose;
+        public event Action RequestNavigateToMain;
 
         [ObservableProperty]
         private string _username = "94d5ous@gmail.com";
@@ -33,14 +35,18 @@ namespace SchoesMarket.ViewModels
         {
             if (AuthenticateUser(Username, Password))
             {
-                LoginSuccessful?.Invoke();
+                RequestNavigateToMain?.Invoke();
             }
             else
             {
                 ErrorMessage = "Неверный логин или пароль";
             }
         }
-
+        [RelayCommand]
+        private void Cancel()
+        {
+            RequestClose?.Invoke();
+        }
         private bool AuthenticateUser(string username, string password)
         {
             var user = _userRepository.GetOne(username, password);
