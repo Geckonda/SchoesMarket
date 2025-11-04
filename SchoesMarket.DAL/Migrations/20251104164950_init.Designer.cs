@@ -12,7 +12,7 @@ using SchoesMarket.DAL;
 namespace SchoesMarket.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251104125902_init")]
+    [Migration("20251104164950_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -39,7 +39,7 @@ namespace SchoesMarket.DAL.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Quantitty")
+                    b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -179,6 +179,23 @@ namespace SchoesMarket.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Администратор"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Менеджер"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Авторизированный клиент"
+                        });
                 });
 
             modelBuilder.Entity("ShoesMarket.Domain.Entities.UserEntity", b =>
@@ -204,7 +221,7 @@ namespace SchoesMarket.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Patrnoymic")
+                    b.Property<string>("Patronymic")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");

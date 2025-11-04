@@ -4,6 +4,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SchoesMarket.DAL.Migrations
 {
     /// <inheritdoc />
@@ -70,7 +72,7 @@ namespace SchoesMarket.DAL.Migrations
                     RoleId = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Surname = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Patrnoymic = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Patronymic = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Login = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Password = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
@@ -123,7 +125,7 @@ namespace SchoesMarket.DAL.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     OrderId = table.Column<int>(type: "integer", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
-                    Quantitty = table.Column<int>(type: "integer", nullable: false)
+                    Quantity = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -140,6 +142,16 @@ namespace SchoesMarket.DAL.Migrations
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Администратор" },
+                    { 2, "Менеджер" },
+                    { 3, "Авторизированный клиент" }
                 });
 
             migrationBuilder.CreateIndex(

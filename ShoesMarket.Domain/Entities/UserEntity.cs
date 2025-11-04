@@ -27,7 +27,7 @@ namespace ShoesMarket.Domain.Entities
         public string Surname{ get; set; }
         [Required]
         [MaxLength(100)]
-        public string Patrnoymic { get; set; }
+        public string Patronymic { get; set; }
 
         [Required]
         [MaxLength(200)]

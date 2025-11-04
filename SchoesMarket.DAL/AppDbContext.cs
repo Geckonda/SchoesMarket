@@ -22,5 +22,15 @@ namespace SchoesMarket.DAL
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<RoleEntity>().HasData(
+                new RoleEntity { Id = 1, Name = "Администратор" },
+                new RoleEntity { Id = 2, Name = "Менеджер" },
+                new RoleEntity { Id = 3, Name = "Авторизированный клиент" }
+            );
+        }
     }
 }
