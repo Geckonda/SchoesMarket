@@ -1,31 +1,52 @@
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using SchoesMarket.DAL;
 using SchoesMarket.ViewModels;
 using SchoesMarket.Views;
+using System;
+using System.Linq;
 
 namespace SchoesMarket
 {
     public partial class App : Application
     {
+        public static IServiceProvider Services { get; private set; } = null!;
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
         }
 
+        private IServiceCollection ConfigureServices()
+        {
+            var services = new ServiceCollection();
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseNpgsql("User ID = postgres; database = SchoesMarket; HOST = localhost; Port = 5432; Password = 2245;"));
+
+            //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+
+            services.AddTransient<MainWindowViewModel>();
+
+            return services;
+        }
+
         public override void OnFrameworkInitializationCompleted()
         {
+            // ѕолучаем -> билдим и присваиваемаем наши сервисы в глобальную переменную 
+            Services = ConfigureServices().BuildServiceProvider();
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
-                // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
+
                 DisableAvaloniaDataAnnotationValidation();
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = Services.GetRequiredService<MainWindowViewModel>(),
                 };
             }
 
