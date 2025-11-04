@@ -56,9 +56,6 @@ namespace ShoesMarket.Domain.Entities
         [Required]
         public string Description { get; set; }
 
-        public string Photo { get; set; }
-
-
-        public List<OrderDetailsEntity> Details { get; set; }
+        public string? Photo { get; set; }
     }
 }
