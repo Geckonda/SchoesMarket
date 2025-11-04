@@ -6,8 +6,10 @@ using Avalonia.Markup.Xaml;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SchoesMarket.DAL;
+using SchoesMarket.DAL.Repository;
 using SchoesMarket.ViewModels;
 using SchoesMarket.Views;
+using ShoesMarket.Domain.Abstractions;
 using System;
 using System.Linq;
 
@@ -27,7 +29,7 @@ namespace SchoesMarket
             services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql("User ID = postgres; database = SchoesMarket; HOST = localhost; Port = 5432; Password = 2245;"));
 
-            //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
 
             services.AddTransient<MainWindowViewModel>();
