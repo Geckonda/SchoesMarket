@@ -41,7 +41,7 @@ namespace SchoesMarket.DAL.Migrations
                     Amount = table.Column<int>(type: "integer", nullable: false),
                     Discount = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    Photo = table.Column<string>(type: "text", nullable: false)
+                    Photo = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

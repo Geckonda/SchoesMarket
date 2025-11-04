@@ -12,7 +12,7 @@ using SchoesMarket.DAL;
 namespace SchoesMarket.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251104084538_init")]
+    [Migration("20251104125902_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -143,7 +143,6 @@ namespace SchoesMarket.DAL.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<string>("Photo")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Price")
@@ -234,7 +233,7 @@ namespace SchoesMarket.DAL.Migrations
                         .IsRequired();
 
                     b.HasOne("ShoesMarket.Domain.Entities.ProductEntity", "Product")
-                        .WithMany("Details")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -282,11 +281,6 @@ namespace SchoesMarket.DAL.Migrations
             modelBuilder.Entity("ShoesMarket.Domain.Entities.PickupPointEntity", b =>
                 {
                     b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("ShoesMarket.Domain.Entities.ProductEntity", b =>
-                {
-                    b.Navigation("Details");
                 });
 
             modelBuilder.Entity("ShoesMarket.Domain.Entities.RoleEntity", b =>
