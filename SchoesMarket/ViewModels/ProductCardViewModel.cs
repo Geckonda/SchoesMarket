@@ -24,15 +24,12 @@ namespace SchoesMarket.ViewModels
             _navigationService = navigationService;
             _productRepository = productRepository;
 
-            if (this.Id == 0)
-                WindowTitle = "Добавление продукта";
-            else
-                WindowTitle = "Редактирование продукта";
         }
 
         [RelayCommand]
         private void OpenEditProductWindow()
         {
+            WindowTitle = "Редактирование продукта";
             _navigationService.NavigateToSaveProduct(this);
         }
 
@@ -96,7 +93,7 @@ namespace SchoesMarket.ViewModels
         [RelayCommand]
         private async Task Delete()
         {
-            var box = MessageBoxManager.GetMessageBoxStandard("Ghtleght;ltybt", "Вы точно хотите удалить товар?", MsBox.Avalonia.Enums.ButtonEnum.YesNo);
+            var box = MessageBoxManager.GetMessageBoxStandard("Подтверждение действия", "Вы точно хотите удалить товар?", MsBox.Avalonia.Enums.ButtonEnum.YesNo);
             var result = await box.ShowAsync();
             if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
             {
