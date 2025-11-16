@@ -18,5 +18,6 @@ namespace SchoesMarket.Navigation
         void NavigateTo<TViewModel>() where TViewModel : class;
         void ShowWindow<TWindow>() where TWindow : Window;
         void CloseCurrentWindow();
+        public void CloseDialog();
     }
 }

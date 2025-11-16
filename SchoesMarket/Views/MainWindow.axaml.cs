@@ -8,9 +8,5 @@ namespace SchoesMarket.Views
         {
             InitializeComponent();
         }
-
-        private void MenuItem_ActualThemeVariantChanged(object? sender, System.EventArgs e)
-        {
-        }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MsBox.Avalonia;
 using SchoesMarket.Navigation;
+using ShoesMarket.Domain.Abstractions;
+using ShoesMarket.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,9 +18,16 @@ namespace SchoesMarket.ViewModels
     public partial class ProductCardViewModel : ObservableValidator
     {
         private readonly INavigationService _navigationService;
-        public ProductCardViewModel(INavigationService navigationService)
+        private readonly IBaseRepository<ProductEntity> _productRepository;
+        public ProductCardViewModel(INavigationService navigationService, IBaseRepository<ProductEntity> productRepository)
         {
             _navigationService = navigationService;
+            _productRepository = productRepository;
+
+            if (this.Id == 0)
+                WindowTitle = "Добавление продукта";
+            else
+                WindowTitle = "Редактирование продукта";
         }
 
         [RelayCommand]
@@ -25,6 +35,9 @@ namespace SchoesMarket.ViewModels
         {
             _navigationService.NavigateToSaveProduct(this);
         }
+
+        [ObservableProperty]
+        private string windowTitle = "Сохранение";
 
         [ObservableProperty]
         private int id;
@@ -77,19 +90,69 @@ namespace SchoesMarket.ViewModels
         [ObservableProperty]
         private Bitmap photo;
 
+        [ObservableProperty]
+        private string photoPath;
+
         [RelayCommand]
-        private void Save()
+        private async Task Save()
         {
             ValidateAllProperties();
 
             if (HasErrors)
             {
-                Debug.WriteLine("НАРУШЕНИЕ");
+                var box = MessageBoxManager.GetMessageBoxStandard("Ошибка валидации", "Проверьте поля", MsBox.Avalonia.Enums.ButtonEnum.Ok);
+                var result = await box.ShowAsync();
                 return;
             }
 
-            Debug.WriteLine("Все хорошо");
-            // Логика сохранения
+            var product = new ProductEntity()
+            {
+                Id = this.Id,
+                Article = this.Article,
+                Name = this.Name,
+                UnitOfMeasurement = this.UnitofMeasurement,
+                Price = this.Price,
+                Supplier = this.Supplier,
+                Manufacturer = this.Manufacturer,
+                Category = this.Category,
+                Amount = this.Amount,
+                Discount = this.Discount,
+                Description = this.Description,
+                Photo = this.PhotoPath
+            };
+
+            try
+            {
+                if (product.Id == 0)
+                    _productRepository.Add(product);
+                else
+                {
+                    var existingProduct = _productRepository.GetOneById(this.Id);
+                    if (existingProduct != null)
+                    {
+                        // Обновляем свойства существующей сущности
+                        existingProduct.Article = this.Article;
+                        existingProduct.Name = this.Name;
+                        existingProduct.UnitOfMeasurement = this.UnitofMeasurement;
+                        existingProduct.Price = this.Price;
+                        existingProduct.Supplier = this.Supplier;
+                        existingProduct.Manufacturer = this.Manufacturer;
+                        existingProduct.Category = this.Category;
+                        existingProduct.Amount = this.Amount;
+                        existingProduct.Discount = this.Discount;
+                        existingProduct.Description = this.Description;
+                        existingProduct.Photo = this.PhotoPath;
+
+                        _productRepository.Update(existingProduct);
+                    }
+                }
+                    _navigationService.CloseDialog();
+            }
+            catch (Exception ex)
+            {
+                var box = MessageBoxManager.GetMessageBoxStandard("Ошибка", "Ошибка добавления в репозиторий. ", MsBox.Avalonia.Enums.ButtonEnum.Ok);
+                var result = await box.ShowAsync();
+            }
         }
     }
 }

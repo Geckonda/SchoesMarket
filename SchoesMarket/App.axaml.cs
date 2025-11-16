@@ -70,6 +70,8 @@ namespace SchoesMarket
             base.OnFrameworkInitializationCompleted();
         }
 
+
+        // Этот метод не изменяется
         private void DisableAvaloniaDataAnnotationValidation()
         {
             // Get an array of plugins to remove

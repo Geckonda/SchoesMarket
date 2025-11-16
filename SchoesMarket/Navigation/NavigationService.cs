@@ -87,5 +87,20 @@ namespace SchoesMarket.Navigation
             saveProductWindow.DataContext = product;
             ShowDialogWindow(saveProductWindow);
         }
+        public void CloseDialog()
+        {
+            // Закрываем все диалоговые окна
+            if (_currentWindow != null)
+            {
+                foreach (Window window in _desktop.Windows)
+                {
+                    if (window != _currentWindow && window is SaveProductWindow)
+                    {
+                        window.Close();
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

@@ -48,7 +48,10 @@
 
                 <StackPanel Orientation="Horizontal">
                     <Button Content="Авторизация" Command="{Binding OpenAuthCommand}"/>
+                    <Button Content="Обновить" Command="{Binding RefreshCommand}"/>
                     <Button Content="Добавить товар" Command="{Binding OpenAddProductWindowCommand}"/>
+                    <Button Content="Заказы" Command="{Binding OpenOrderWindowCommand}"/>
+                    <Button Content="Заказы" Command="{Binding OpenNewOrderWindowCommand}"/>
                 </StackPanel>
 
                     <ItemsControl ItemsSource="{Binding Products}">
