@@ -30,10 +30,24 @@
             VerticalScrollBarVisibility="Auto">
         <Border Padding="10">
             <StackPanel Spacing="10">
+                 <StackPanel IsVisible="{Binding IsAdmin}">
+                    <TextBlock Text="Административная панель" FontWeight="Bold"/>
+                </StackPanel>
+
+                 <StackPanel IsVisible="{Binding IsManager}">
+                    <TextBlock Text="Менеджерская панель" FontWeight="Bold"/>
+                </StackPanel>
+
+                 <StackPanel IsVisible="{Binding IsUser}">
+                    <TextBlock Text="Пользовательская панель" FontWeight="Bold"/>
+                </StackPanel>
+
 		        <TextBlock Text="Товары" />
+
                 <StackPanel Orientation="Horizontal">
                     <Button Content="Авторизация" Command="{Binding OpenAuthCommand}"/>
                 </StackPanel>
+
                     <ItemsControl ItemsSource="{Binding Products}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -48,6 +62,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+
              </StackPanel>
         </Border>
     </ScrollViewer>

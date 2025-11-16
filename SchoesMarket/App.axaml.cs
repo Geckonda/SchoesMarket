@@ -11,6 +11,7 @@ using SchoesMarket.Navigation;
 using SchoesMarket.ViewModels;
 using SchoesMarket.Views;
 using ShoesMarket.Domain.Abstractions;
+using ShoesMarket.Domain.Helpers;
 using System;
 using System.Linq;
 
@@ -19,6 +20,7 @@ namespace SchoesMarket
     public partial class App : Application
     {
         public static IServiceProvider Services { get; private set; } = null!;
+        public static UserRole CurrentUserRole = UserRole.None;
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);

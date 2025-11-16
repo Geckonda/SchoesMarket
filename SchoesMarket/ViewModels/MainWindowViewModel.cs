@@ -6,6 +6,7 @@ using SchoesMarket.Converters;
 using SchoesMarket.Navigation;
 using ShoesMarket.Domain.Abstractions;
 using ShoesMarket.Domain.Entities;
+using ShoesMarket.Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,10 +20,25 @@ namespace SchoesMarket.ViewModels
         private readonly INavigationService _navigationService;
 
         [ObservableProperty]
+        private UserRole currentUserRole;
+
+        // Свойства видимости для разных ролей
+        // Админ видит всё
+        public bool IsAdmin => CurrentUserRole == UserRole.Admin;
+
+        // Менеджер и выше
+        public bool IsManager => CurrentUserRole == UserRole.Manager || IsAdmin;
+
+        // Все пользователи (включая админов и менеджеров)
+        public bool IsUser => CurrentUserRole == UserRole.User || IsManager;
+
+        [ObservableProperty]
         private ObservableCollection<ProductCardViewModel> _products = new();
         public MainWindowViewModel(IBaseRepository<ProductEntity> productRepository,
             INavigationService navigationService)
         {
+            // Получение роли пользователя
+            CurrentUserRole = App.CurrentUserRole;
             _productRepository = productRepository;
             _navigationService = navigationService;
             Refresh();
@@ -57,6 +73,7 @@ namespace SchoesMarket.ViewModels
         [RelayCommand]
         private void OpenAuth()
         {
+            // Открывает окно авторизации
             _navigationService.NavigateToLogin();
         }
 

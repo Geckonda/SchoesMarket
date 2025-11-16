@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using SchoesMarket.Navigation;
 using ShoesMarket.Domain.Abstractions;
 using ShoesMarket.Domain.Entities;
+using ShoesMarket.Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +51,12 @@ namespace SchoesMarket.ViewModels
         private bool AuthenticateUser(string username, string password)
         {
             var user = _userRepository.GetOne(username, password);
-            return user != null;
+            if(user != null)
+            {
+                App.CurrentUserRole = (UserRole)user.RoleId;
+                return true;
+            }
+            return false;
         }
     }
 }
