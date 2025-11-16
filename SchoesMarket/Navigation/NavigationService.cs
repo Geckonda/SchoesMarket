@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Microsoft.Extensions.DependencyInjection;
 using SchoesMarket.ViewModels;
 using SchoesMarket.Views;
+using ShoesMarket.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +52,12 @@ namespace SchoesMarket.Navigation
             mainWindow.DataContext = _services.GetRequiredService<MainWindowViewModel>();
             ShowWindow(mainWindow);
         }
-
+        public void NavigateToSaveProduct()
+        {
+            var saveProductWindow = _services.GetRequiredService<SaveProductWindow>();
+            saveProductWindow.DataContext = _services.GetRequiredService<ProductCardViewModel>();
+            ShowDialogWindow(saveProductWindow);
+        }
         public void ShowWindow<TWindow>() where TWindow : Window
         {
             var window = _services.GetRequiredService<TWindow>();
@@ -69,6 +75,17 @@ namespace SchoesMarket.Navigation
             window.Show();
             if(_currentWindow!= null) _currentWindow.Close();
             _currentWindow = window;
+        }
+        private void ShowDialogWindow(Window window)
+        {
+            window.ShowDialog(_currentWindow);
+        }
+
+        public void NavigateToSaveProduct(ProductCardViewModel product)
+        {
+            var saveProductWindow = _services.GetRequiredService<SaveProductWindow>();
+            saveProductWindow.DataContext = product;
+            ShowDialogWindow(saveProductWindow);
         }
     }
 }

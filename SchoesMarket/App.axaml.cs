@@ -48,6 +48,7 @@ namespace SchoesMarket
 
             services.AddTransient<LoginWindow>();
             services.AddTransient<MainWindow>();
+            services.AddTransient<SaveProductWindow>();
 
             return services;
         }

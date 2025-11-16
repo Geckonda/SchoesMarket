@@ -17,6 +17,15 @@
             Margin="10"
             Padding="15"
             CornerRadius="8">
+
+         <Border.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Редактировать" 
+                  Command="{Binding OpenEditProductWindowCommand}"
+                  CommandParameter="{Binding}"/>
+            </ContextMenu>
+        </Border.ContextMenu>
+
         <Grid ColumnDefinitions="Auto,*,Auto" Background="#222">
             
             <!-- Левая часть - изображение товара -->

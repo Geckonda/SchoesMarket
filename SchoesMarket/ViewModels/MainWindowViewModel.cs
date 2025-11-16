@@ -53,9 +53,11 @@ namespace SchoesMarket.ViewModels
             {
                 // Формирование пути до картинки
                 var photoPath = new Uri("avares://SchoesMarket/Assets/" + (item.Photo ?? "picture.png")); // В случае, если item.photo == null выведем default
-                Products.Add(new ProductCardViewModel
+                Products.Add(new ProductCardViewModel(_navigationService)
                 {
                     Id = item.Id,
+                    Article = item.Article,
+                    Category = item.Category,
                     Name = item.Name,
                     Description = item.Description,
                     Manufacturer = item.Manufacturer,
@@ -76,11 +78,11 @@ namespace SchoesMarket.ViewModels
             // Открывает окно авторизации
             _navigationService.NavigateToLogin();
         }
-
         [RelayCommand]
         private void OpenAddProductWindow()
         {
-
+            _navigationService.NavigateToSaveProduct();
         }
+
     }
 }

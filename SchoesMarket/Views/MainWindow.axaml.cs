@@ -1,4 +1,4 @@
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 
 namespace SchoesMarket.Views
 {
@@ -7,6 +7,10 @@ namespace SchoesMarket.Views
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void MenuItem_ActualThemeVariantChanged(object? sender, System.EventArgs e)
+        {
         }
     }
 }

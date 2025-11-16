@@ -8,6 +8,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SchoesMarket.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
+        x:Name="MainViewModel"
         Width="1000"
         Height="600"
         WindowStartupLocation="CenterScreen"
@@ -42,10 +43,12 @@
                     <TextBlock Text="Пользовательская панель" FontWeight="Bold"/>
                 </StackPanel>
 
+
 		        <TextBlock Text="Товары" />
 
                 <StackPanel Orientation="Horizontal">
                     <Button Content="Авторизация" Command="{Binding OpenAuthCommand}"/>
+                    <Button Content="Добавить товар" Command="{Binding OpenAddProductWindowCommand}"/>
                 </StackPanel>
 
                     <ItemsControl ItemsSource="{Binding Products}">
@@ -58,7 +61,7 @@
                         <ItemsControl.ItemTemplate>
                                <DataTemplate>
                             <!-- Используем наш UserControl -->
-                                <views:ProductCard DataContext="{Binding}"/>
+                                <views:ProductCard DataContext="{Binding}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
