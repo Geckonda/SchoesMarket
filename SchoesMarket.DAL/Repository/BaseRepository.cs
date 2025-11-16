@@ -24,10 +24,14 @@ namespace SchoesMarket.DAL.Repository
             _db.SaveChanges();
         }
 
-        public void Delete(T entity)
+        public void Delete(int id)
         {
-            _dbset.Remove(entity);
-            _db.SaveChanges();
+            var entity = _dbset.Find(id);
+            if (entity != null)
+            {
+                _dbset.Remove(entity);
+                _db.SaveChanges();
+            }
         }
 
         public virtual List<T>? GetAll()

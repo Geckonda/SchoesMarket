@@ -94,6 +94,25 @@ namespace SchoesMarket.ViewModels
         private string photoPath;
 
         [RelayCommand]
+        private async Task Delete()
+        {
+            var box = MessageBoxManager.GetMessageBoxStandard("Ghtleght;ltybt", "Вы точно хотите удалить товар?", MsBox.Avalonia.Enums.ButtonEnum.YesNo);
+            var result = await box.ShowAsync();
+            if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
+            {
+                try
+                {
+                    _productRepository.Delete(this.Id);
+                }
+                catch (Exception ex)
+                {
+                    box = MessageBoxManager.GetMessageBoxStandard("Ошибка", "Ошибка удаления. ", MsBox.Avalonia.Enums.ButtonEnum.Ok);
+                    result = await box.ShowAsync();
+                }
+            }
+        }
+
+        [RelayCommand]
         private async Task Save()
         {
             ValidateAllProperties();

@@ -11,7 +11,7 @@ namespace ShoesMarket.Domain.Abstractions
         T? GetOneById(int id);
         List<T>? GetAll();
         void Update(T entity);
-        void Delete(T entity);
+        void Delete(int id);
         void Add (T entity);
     }
 }
