@@ -58,5 +58,11 @@ namespace SchoesMarket.ViewModels
             }
             return false;
         }
+        [RelayCommand]
+        private void ExecuteLoginAsGuest()
+        {
+            App.CurrentUserRole = UserRole.None;
+            RequestNavigateToMain?.Invoke();
+        }
     }
 }
