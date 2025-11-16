@@ -35,7 +35,8 @@ namespace SchoesMarket.ViewModels
 
             foreach (var item in list)
             {
-                var photoPath = new Uri("avares://SchoesMarket/Assets/" + (item.Photo ?? "picture.png"));
+                // Формирование пути до картинки
+                var photoPath = new Uri("avares://SchoesMarket/Assets/" + (item.Photo ?? "picture.png")); // В случае, если item.photo == null выведем default
                 Products.Add(new ProductCardViewModel
                 {
                     Id = item.Id,
@@ -47,6 +48,7 @@ namespace SchoesMarket.ViewModels
                     UnitofMeasurement = item.UnitOfMeasurement,
                     Amount = item.Amount,
                     Discount = item.Discount,
+                    // Создаем объект картинки (BitMap)
                     Photo = new Bitmap(AssetLoader.Open(photoPath)),
                 });
             }
