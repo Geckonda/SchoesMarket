@@ -46,7 +46,7 @@
 
 		        <TextBlock Text="Товары" />
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Spacing="10">
                     <Button Content="Авторизация" Command="{Binding OpenAuthCommand}"/>
                     <Button Content="Обновить" Command="{Binding RefreshCommand}"/>
                     <Button Content="Добавить товар" Command="{Binding OpenAddProductWindowCommand}"/>

@@ -10,13 +10,15 @@
 
     <UserControl.Resources>
         <converters:DiscountToColorConverter x:Key="DiscountToColorConverter" /> 
+        <converters:AmountToBackgroundConverter x:Key="AmountToBackgroundConverter" /> 
     </UserControl.Resources>
 
     <Border BorderBrush="LightGray"
             BorderThickness="1"
             Margin="10"
             Padding="15"
-            CornerRadius="8">
+            CornerRadius="8"
+            Background="{Binding Amount, Converter={StaticResource AmountToBackgroundConverter}}">
 
          <Border.ContextMenu>
             <ContextMenu>
@@ -29,7 +31,7 @@
             </ContextMenu>
         </Border.ContextMenu>
 
-        <Grid ColumnDefinitions="Auto,*,Auto" Background="#222">
+        <Grid ColumnDefinitions="Auto,*,Auto" >
             
             <!-- Левая часть - изображение товара -->
             <Image Grid.Column="0"
