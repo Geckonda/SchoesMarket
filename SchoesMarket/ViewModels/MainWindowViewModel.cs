@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SchoesMarket.Converters;
 using SchoesMarket.Navigation;
@@ -33,6 +35,7 @@ namespace SchoesMarket.ViewModels
 
             foreach (var item in list)
             {
+                var photoPath = new Uri("avares://SchoesMarket/Assets/" + (item.Photo ?? "picture.png"));
                 Products.Add(new ProductCardViewModel
                 {
                     Id = item.Id,
@@ -44,7 +47,7 @@ namespace SchoesMarket.ViewModels
                     UnitofMeasurement = item.UnitOfMeasurement,
                     Amount = item.Amount,
                     Discount = item.Discount,
-                    Photo = StringToBitmapConverter.LoadProductImage(item.Photo)!
+                    Photo = new Bitmap(AssetLoader.Open(photoPath)),
                 });
             }
         }
