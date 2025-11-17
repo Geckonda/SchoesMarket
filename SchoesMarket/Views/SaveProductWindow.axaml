@@ -1,0 +1,111 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SchoesMarket.SaveProductWindow"
+        xmlns:vm="using:SchoesMarket.ViewModels"
+        x:DataType="vm:ProductCardViewModel"
+        Width="600"
+        Height="600"
+        WindowStartupLocation="CenterScreen"
+        CanResize="True"
+        Icon="/Assets/Icon.ico"
+        Title="Сохранение продукта">
+
+
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel Margin="20" Spacing="15">
+        
+        <TextBlock Text="{Binding WindowTitle}" />
+
+        <StackPanel Spacing="15">
+            <TextBlock Grid.Column="2" Text="Артикул:" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="3" Watermark="Введите артикул" Text="{Binding Article}"/>
+        </StackPanel>
+        
+        <StackPanel Spacing="15">
+            <TextBlock Text="Название:" VerticalAlignment="Center"/>
+            <TextBox Watermark="Введите название" Text="{Binding Name}"/>
+        </StackPanel>
+        
+        <StackPanel Spacing="15">
+            <TextBlock Text="Ед. измерения:" VerticalAlignment="Center"/>
+            <TextBox Watermark="шт, кг, л" Text="{Binding UnitofMeasurement}"/>
+        </StackPanel>
+
+        <StackPanel Spacing="15">
+            <TextBlock  Text="Цена:" VerticalAlignment="Center"/>
+            <NumericUpDown Minimum="0" Text="{Binding Price}"/>
+        </StackPanel>
+        
+        <StackPanel Spacing="15">
+            <TextBlock Text="Поставщик:" VerticalAlignment="Center"/>
+            <TextBox Watermark="Введите поставщика" Text="{Binding Supplier}"/>
+        </StackPanel>
+
+        <StackPanel Spacing="15">
+            <TextBlock Text="Производитель:" VerticalAlignment="Center"/>
+            <TextBox  Watermark="Введите производителя" Text="{Binding Manufacturer}"/>
+        </StackPanel>
+        
+        <StackPanel Spacing="15">
+            <TextBlock Text="Категория:" VerticalAlignment="Center"/>
+            <TextBox Watermark="Введите категорию" Text="{Binding Category}"/>
+        </StackPanel>
+        
+        <StackPanel Spacing="15">
+            <TextBlock Text="Количество:" VerticalAlignment="Center"/>
+            <NumericUpDown Minimum="0" 
+               Increment="1"
+               FormatString="F0"
+               AllowSpin="True"
+               ShowButtonSpinner="True"
+               Text="{Binding Amount}"/>
+        </StackPanel>
+
+        <StackPanel Spacing="15">
+            <TextBlock Text="Скидка:" VerticalAlignment="Center"/>
+            <NumericUpDown Minimum="0" Maximum="100"
+               Increment="1"
+               FormatString="F0"
+               AllowSpin="True"
+               ShowButtonSpinner="True"
+               Text="{Binding Discount}"/>
+        </StackPanel>
+        
+        <StackPanel Spacing="15">
+            <TextBlock Text="Описание:" VerticalAlignment="Top" Margin="0,5,0,0"/>
+            <TextBox Watermark="Введите описание" 
+                     Text="{Binding Description}"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     Height="80"/>
+        </StackPanel>
+        
+        <StackPanel Spacing="15">
+            <TextBlock Text="Фото:" VerticalAlignment="Top" Margin="0,5,0,0"/>
+            <StackPanel>
+                <Border BorderBrush="Gray" 
+                        BorderThickness="1"
+                        Background="LightGray"
+                        Height="150"
+                        Width="200"
+                        HorizontalAlignment="Left">
+                    <Image Source="{Binding Photo}" Stretch="Uniform" Margin="5"/>
+                </Border>
+               <!-- <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,10,0,0">
+                    <Button Content="Загрузить фото" Command="{Binding LoadPhotoCommand}"/>
+                    <Button Content="Удалить фото" Command="{Binding RemovePhotoCommand}"/>
+                </StackPanel>-->
+            </StackPanel>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="20" Margin="0,20,0,0">
+            <Button Content="Сохранить" Command="{Binding SaveCommand}" Width="100"/>
+            <!--<Button Content="Отмена" Command="{Binding CancelCommand}" Width="100"/>-->
+        </StackPanel>
+        
+    </StackPanel>
+</ScrollViewer>
+</Window>

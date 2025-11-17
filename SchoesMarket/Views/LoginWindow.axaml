@@ -1,0 +1,39 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="using:SchoesMarket.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:DataType="viewmodels:LoginViewModel"
+        x:Class="SchoesMarket.LoginWindow"
+        Width="500"
+        Height="300"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        Icon="/Assets/Icon.ico"
+        Title="Авторизация">
+
+  <DockPanel Margin="20">
+    <!-- Кнопка сверху слева -->
+    <Button Content="Войти как гость" 
+            DockPanel.Dock="Top" 
+            HorizontalAlignment="Right"
+            Margin="0,0,0,10"
+            Command="{Binding ExecuteLoginAsGuestCommand}"/>
+    
+    <!-- Основной контент по центру -->
+    <StackPanel Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Text="Вход в систему" FontSize="16" FontWeight="Bold"/>
+        
+        <TextBlock Text="Логин" FontSize="12"/>
+        <TextBox Watermark="Логин" Text="{Binding Username}"/>
+        
+        <TextBlock Text="Пароль" FontSize="12"/>
+        <TextBox Watermark="Пароль" PasswordChar="*" Text="{Binding Password}"/>
+        
+        <Button Content="Войти" Command="{Binding ExecuteLoginCommand}"/>
+        
+        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" TextWrapping="Wrap"/>
+    </StackPanel>
+</DockPanel>
+</Window>

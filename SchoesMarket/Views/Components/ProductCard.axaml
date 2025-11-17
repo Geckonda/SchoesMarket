@@ -1,0 +1,97 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="using:SchoesMarket.Converters"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewmodels="using:SchoesMarket.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="viewmodels:ProductCardViewModel"
+             x:Class="SchoesMarket.ProductCard">
+
+    <UserControl.Resources>
+        <converters:DiscountToColorConverter x:Key="DiscountToColorConverter" /> 
+        <converters:AmountToBackgroundConverter x:Key="AmountToBackgroundConverter" /> 
+    </UserControl.Resources>
+
+    <Border BorderBrush="LightGray"
+            BorderThickness="1"
+            Margin="10"
+            Padding="15"
+            CornerRadius="8"
+            Background="{Binding Amount, Converter={StaticResource AmountToBackgroundConverter}}">
+
+         <Border.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Редактировать" 
+                  Command="{Binding OpenEditProductWindowCommand}"
+                  CommandParameter="{Binding}"/>
+                 <MenuItem Header="Удалить" 
+                  Command="{Binding DeleteCommand}"
+                  CommandParameter="{Binding}"/>
+            </ContextMenu>
+        </Border.ContextMenu>
+
+        <Grid ColumnDefinitions="Auto,*,Auto" >
+            
+            <!-- Левая часть - изображение товара -->
+            <Image Grid.Column="0"
+                   Width="80"
+                   Height="80"
+                   Margin="0,0,15,0"
+                   Source="{Binding Photo}"
+                   Stretch="Uniform"/>
+            
+            <!-- Центральная часть - характеристики -->
+            <StackPanel Grid.Column="1"
+                        Margin="0,0,15,0">
+                
+                <TextBlock Text="{Binding Name}"
+                          FontWeight="Bold"
+                          Margin="0,0,0,5"/>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Описание товара:"/>
+                    <TextBlock Text="{Binding Description}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Производитель:"/>
+                    <TextBlock Text="{Binding Manufacturer}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Поставщик:"/>
+                    <TextBlock Text="{Binding Supplier}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Цена:"/>
+                    <TextBlock Text="{Binding Price}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Единица измерения:"/>
+                    <TextBlock Text="{Binding UnitofMeasurement}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Количество на складе:"/>
+                    <TextBlock Text="{Binding Amount}"/>
+                </StackPanel>
+            </StackPanel>
+            
+            <!-- Правая часть - скидка -->
+            <Border Grid.Column="2"
+                    Background="{Binding Discount, Converter={StaticResource DiscountToColorConverter}}"
+                    Padding="8,4"
+                    CornerRadius="4"
+                    VerticalAlignment="Top">
+                <TextBlock Text="{Binding Discount}"
+                          Foreground="White"
+                          FontWeight="Bold"
+                          FontSize="12"/>
+            </Border>
+            
+        </Grid>
+    </Border>
+</UserControl>
