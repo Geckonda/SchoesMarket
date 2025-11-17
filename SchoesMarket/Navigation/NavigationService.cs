@@ -14,9 +14,9 @@ namespace SchoesMarket.Navigation
 {
     public class NavigationService : INavigationService
     {
-        private readonly IClassicDesktopStyleApplicationLifetime _desktop;
-        private readonly IServiceProvider _services;
-        private Window _currentWindow;
+        private readonly IClassicDesktopStyleApplicationLifetime _desktop; // Доступ к жизненному циклу приложения
+        private readonly IServiceProvider _services; // Контейнер зависимостей для получения сервисов
+        private Window _currentWindow; // Текущее активное окно
 
         public NavigationService(IClassicDesktopStyleApplicationLifetime desktop, IServiceProvider services)
         {
@@ -29,7 +29,7 @@ namespace SchoesMarket.Navigation
             var loginWindow = _services.GetRequiredService<LoginWindow>();
             loginWindow.DataContext = _services.GetRequiredService<LoginViewModel>();
 
-            // Подписываемся на событие успешного логина
+            // Подписываемся на событие успешного логина для перехода к главному окну
             if (loginWindow.DataContext is LoginViewModel loginViewModel)
             {
                 loginViewModel.RequestNavigateToMain += NavigateToMain;
@@ -52,6 +52,7 @@ namespace SchoesMarket.Navigation
             mainWindow.DataContext = _services.GetRequiredService<MainWindowViewModel>();
             ShowWindow(mainWindow);
         }
+        // Открытие диалога создания нового товара
         public void NavigateToSaveProduct()
         {
             var saveProductWindow = _services.GetRequiredService<SaveProductWindow>();
@@ -64,6 +65,7 @@ namespace SchoesMarket.Navigation
             ShowWindow(window);
         }
 
+        // Закрыть текущее активное окно
         public void CloseCurrentWindow()
         {
             _currentWindow?.Close();

@@ -94,9 +94,11 @@ namespace SchoesMarket.ViewModels
         [RelayCommand]
         private void OpenAddProductWindow()
         {
+            // Открывает окно добавления продукта
             _navigationService.NavigateToSaveProduct();
         }
 
+        // Метод демонстрации модульного окна с кнопкой ОК
         [RelayCommand]
         private async Task OpenOrderWindow()
         {
@@ -111,6 +113,7 @@ namespace SchoesMarket.ViewModels
             }
         }
 
+        // Метод демонстрации модульного окна с кнопками ДА и НЕТ
         [RelayCommand]
         private async Task OpenNewOrderWindow()
         {

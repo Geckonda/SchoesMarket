@@ -26,6 +26,7 @@ namespace SchoesMarket.ViewModels
 
         }
 
+        // Открывает окно редактирвоания продукта
         [RelayCommand]
         private void OpenEditProductWindow()
         {
@@ -33,66 +34,75 @@ namespace SchoesMarket.ViewModels
             _navigationService.NavigateToSaveProduct(this);
         }
 
+        // Поле заголовка окна
         [ObservableProperty]
         private string windowTitle = "Сохранение";
 
         [ObservableProperty]
-        private int id;
+        private int _id;
+
+        // Следующие поля носят атрибуты валидации
 
         [ObservableProperty]
         [Required(ErrorMessage = "Артикул обязателен")]
-        private string article;
+        private string _article;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Название обязательно")]
         [MinLength(2, ErrorMessage = "Название должно содержать минимум 2 символа")]
         [MaxLength(100, ErrorMessage = "Название не должно превышать 100 символов")]
-        private string name;
+        private string _name;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Единица измерения обязательна")]
-        private string unitofMeasurement;
+        private string _unitofMeasurement;
 
 
         [ObservableProperty]
         [Required(ErrorMessage = "Цена обязательна")]
-        private int price;
+        private int _price;
 
 
         [ObservableProperty]
         [Required(ErrorMessage = "Поставщик обязателен")]
-        private string supplier;
+        private string _supplier;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Производитель обязателен")]
-        private string manufacturer;
+        private string _manufacturer;
 
 
         [ObservableProperty]
         [Required(ErrorMessage = "Категория обязательна")]
-        private string category;
+        private string _category;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Количество обязательно")]
-        private int amount;
+        private int _amount;
 
         [ObservableProperty]
         [Range(0, 100, ErrorMessage = "Скидка должна быть от 0% до 100%")]
-        private int discount;
+        private int _discount;
 
         [ObservableProperty]
         [MaxLength(500, ErrorMessage = "Описание не должно превышать 500 символов")]
-        private string description;
+        private string _description;
 
+        // Путь к фото
         [ObservableProperty]
-        private Bitmap photo;
+        private Bitmap _photo;
 
+        // Путь к картинке
         [ObservableProperty]
-        private string photoPath;
+        private string _photoPath;
 
+        /// <summary>
+        /// Удаление товара 
+        /// </summary>
         [RelayCommand]
         private async Task Delete()
         {
+            // Вывод подтверждение для пользователя, что он действительно уверен в удалении товара 
             var box = MessageBoxManager.GetMessageBoxStandard("Подтверждение действия", "Вы точно хотите удалить товар?", MsBox.Avalonia.Enums.ButtonEnum.YesNo);
             var result = await box.ShowAsync();
             if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
@@ -109,11 +119,16 @@ namespace SchoesMarket.ViewModels
             }
         }
 
+        /// <summary>
+        /// Метод добавления/редактирования товара
+        /// </summary>
         [RelayCommand]
         private async Task Save()
         {
+            // Метод объекта ObservableValidator, от которого наследуется наш класс, проверяет ошибки валидации
             ValidateAllProperties();
 
+            // Если есть ошибки, выводим окно с ошибкой и выходим из метода созхранения
             if (HasErrors)
             {
                 var box = MessageBoxManager.GetMessageBoxStandard("Ошибка валидации", "Проверьте поля", MsBox.Avalonia.Enums.ButtonEnum.Ok);
@@ -121,6 +136,7 @@ namespace SchoesMarket.ViewModels
                 return;
             }
 
+            // Переносим значения полей из ViewModel в Entity
             var product = new ProductEntity()
             {
                 Id = this.Id,
@@ -162,7 +178,8 @@ namespace SchoesMarket.ViewModels
                         _productRepository.Update(existingProduct);
                     }
                 }
-                    _navigationService.CloseDialog();
+                // Закрываем окно
+                _navigationService.CloseDialog();
             }
             catch (Exception ex)
             {
