@@ -8,9 +8,12 @@
              x:DataType="viewmodels:ProductCardViewModel"
              x:Class="SchoesMarket.ProductCard">
 
+    <!--Подключение конвертеров стилий-->
     <UserControl.Resources>
+
         <converters:DiscountToColorConverter x:Key="DiscountToColorConverter" /> 
         <converters:AmountToBackgroundConverter x:Key="AmountToBackgroundConverter" /> 
+        <converters:CrossPriceConverter x:Key="CrossPriceConverter" /> 
     </UserControl.Resources>
 
     <Border BorderBrush="LightGray"
@@ -66,7 +69,11 @@
 
                 <StackPanel Orientation="Horizontal" Spacing="10">
                     <TextBlock Text="Цена:"/>
-                    <TextBlock Text="{Binding Price}"/>
+                    <TextBlock Text="{Binding Price}" TextDecorations="{Binding Discount, Converter={StaticResource CrossPriceConverter}}"/>
+                    <TextBlock Text="{Binding RealPrice}"
+                               IsVisible="{Binding HasDiscount}"
+                               Foreground="White" Background="Red"
+                               Padding="5"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Spacing="10">

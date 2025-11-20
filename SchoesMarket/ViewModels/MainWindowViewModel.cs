@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -77,6 +78,14 @@ namespace SchoesMarket.ViewModels
                 vm.UnitofMeasurement = item.UnitOfMeasurement;
                 vm.Amount = item.Amount;
                 vm.Discount = item.Discount;
+
+                // Проверка наличия скидки
+                vm.HasDiscount = item.Discount > 0;
+
+                // Если скидка есть, считаем реальную цену
+                if (vm.HasDiscount)
+                    vm.RealPrice = item.Price * (100 - item.Discount) / 100;
+
                 // Создаем объект картинки (BitMap)
                 vm.Photo = new Bitmap(AssetLoader.Open(photoPath));
                 vm.PhotoPath = item.Photo;

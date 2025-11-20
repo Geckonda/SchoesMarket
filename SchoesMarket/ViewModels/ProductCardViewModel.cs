@@ -96,6 +96,12 @@ namespace SchoesMarket.ViewModels
         [ObservableProperty]
         private string _photoPath;
 
+        [ObservableProperty]
+        private bool _hasDiscount;
+
+        [ObservableProperty]
+        private int _realPrice;
+
         /// <summary>
         /// Удаление товара 
         /// </summary>
