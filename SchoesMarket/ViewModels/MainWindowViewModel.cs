@@ -41,11 +41,27 @@ namespace SchoesMarket.ViewModels
         // Все пользователи (включая админов и менеджеров)
         public bool IsUser => CurrentUserRole == UserRole.User || IsManager;
 
+        // ---------------------------- Начало методов поиска ----------------------------
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(SearchCommand))]
         private string _searchText = string.Empty;
 
         private bool CanSearch() => !string.IsNullOrWhiteSpace(SearchText);
+
+        // Этот метод автоматически вызывается при изменении SearchText
+        partial void OnSearchTextChanged(string value)
+        {
+            // Проверяем можно ли выполнить команду и выполняем
+            if (CanSearch())
+            {
+                SearchCommand.Execute(null);
+            }
+            else
+            {
+                // Если поиск пустой - показываем все товары
+                UpdateProductsCollection(_allProducts);
+            }
+        }
 
         /// <summary>
         /// Поиск по полям продуктов
@@ -81,7 +97,7 @@ namespace SchoesMarket.ViewModels
                 Products.Add(product);
             }
         }
-
+// ---------------------------- Конец методов поиска ----------------------------
         [ObservableProperty]
         private ObservableCollection<ProductCardViewModel> _products = new();
 
