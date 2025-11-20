@@ -36,7 +36,10 @@
 
         <StackPanel Spacing="15">
             <TextBlock  Text="Цена:" VerticalAlignment="Center"/>
-            <NumericUpDown Minimum="0" Text="{Binding Price}"/>
+            <NumericUpDown Minimum="1"
+                           Increment="1"
+                           FormatString="F0"
+                           Text="{Binding Price}"/>
         </StackPanel>
         
         <StackPanel Spacing="15">
