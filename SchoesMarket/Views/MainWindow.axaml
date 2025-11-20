@@ -43,6 +43,12 @@
                     <TextBlock Text="Пользовательская панель" FontWeight="Bold"/>
                 </StackPanel>
 
+                 <StackPanel IsVisible="{Binding IsUser}" Orientation="Vertical">
+                     <TextBlock Text="Поиск"/>
+                    <TextBox Watermark="Поиск"
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
 
 		        <TextBlock Text="Товары" />
 

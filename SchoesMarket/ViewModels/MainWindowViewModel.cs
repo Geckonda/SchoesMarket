@@ -42,7 +42,50 @@ namespace SchoesMarket.ViewModels
         public bool IsUser => CurrentUserRole == UserRole.User || IsManager;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(SearchCommand))]
+        private string _searchText = string.Empty;
+
+        private bool CanSearch() => !string.IsNullOrWhiteSpace(SearchText);
+
+        /// <summary>
+        /// Поиск по полям продуктов
+        /// </summary>
+        [RelayCommand(CanExecute = nameof(CanSearch))]
+        private void Search()
+        {
+            if (!string.IsNullOrWhiteSpace(SearchText))
+            {
+                var searchTerm = SearchText.ToLower();
+
+                var filteredProducts = _allProducts.Where(p =>
+                    (p.Name?.ToLower().Contains(searchTerm) == true) ||
+                    (p.Category?.ToLower().Contains(searchTerm) == true) ||
+                    (p.Description?.ToLower().Contains(searchTerm) == true) ||
+                    (p.Manufacturer?.ToLower().Contains(searchTerm) == true) ||
+                    (p.Supplier?.ToLower().Contains(searchTerm) == true)
+                ).ToList();
+
+                UpdateProductsCollection(filteredProducts);
+            }
+            else
+            {
+                UpdateProductsCollection(_allProducts);
+            }
+        }
+
+        private void UpdateProductsCollection(IEnumerable<ProductCardViewModel> products)
+        {
+            Products.Clear();
+            foreach (var product in products)
+            {
+                Products.Add(product);
+            }
+        }
+
+        [ObservableProperty]
         private ObservableCollection<ProductCardViewModel> _products = new();
+
+        private List<ProductCardViewModel> _allProducts = new();
         public MainWindowViewModel(IBaseRepository<ProductEntity> productRepository,
             INavigationService navigationService)
         {
@@ -57,6 +100,7 @@ namespace SchoesMarket.ViewModels
         private void Refresh()
         {
             Products = new();
+            _allProducts = new();
             List<ProductEntity> list = [.. _productRepository.GetAll() ?? new()];
             list = list.OrderByDescending(x => x.Id).ToList();
             foreach (var item in list)
@@ -91,6 +135,7 @@ namespace SchoesMarket.ViewModels
                 vm.PhotoPath = item.Photo;
                 // Добавляем в коллекцию
                 Products.Add(vm);
+                _allProducts.Add(vm);
             }
         }
 
